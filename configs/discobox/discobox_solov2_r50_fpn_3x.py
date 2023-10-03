@@ -35,7 +35,7 @@ model = dict(
         num_outs=5),
     bbox_head=dict(
         type='DiscoBoxSOLOv2Head',
-        num_classes=80,
+        num_classes=12,
         in_channels=256,
         stacked_convs=4,
         seg_feat_channels=512,
@@ -111,7 +111,7 @@ model = dict(
     )
 
 # dataset settings
-dataset_type = 'CocoDataset'
+dataset_type = 'RoadDamageDataset'
 data_root = 'data/coco/'
 train_pipeline = [
     dict(type='LoadImageFromFile'),
@@ -144,18 +144,18 @@ data = dict(
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/instances_train2017.json',
-        img_prefix=data_root + 'train2017/',
+        ann_file="../data/RoadDamageDetector/data/anno_allc_dashcam.json",
+        img_prefix="../data/RoadDamageDetector/data/",
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/instances_val2017.json',
-        img_prefix=data_root + 'val2017/',
+        ann_file="../data/RoadDamageDetector/data/anno_all_val_dashcam.json",
+        img_prefix="../data/RoadDamageDetector/data/",
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/instances_val2017.json',
-        img_prefix=data_root + 'val2017/',
+        ann_file="../data/RoadDamageDetector/data/anno_all_val_dashcam.json",
+        img_prefix="../data/RoadDamageDetector/data/",
         pipeline=test_pipeline))
 # optimizer
 optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0001)
@@ -167,7 +167,7 @@ lr_config = dict(
     warmup_iters=2000,
     warmup_ratio=0.01,
     step=[33, 35])
-checkpoint_config = dict(interval=2)
+checkpoint_config = dict(interval=1)
 # yapf:disable
 log_config = dict(
     interval=50,
@@ -183,6 +183,6 @@ device_ids = range(8)
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 work_dir = './work_dirs/discobox_r50_fpn_3x'
-load_from = None
+load_from = 'weights/coco_r50_fpn_3x.pth'
 resume_from = None
 workflow = [('train', 1)]

@@ -83,7 +83,7 @@ class SingleStageWSInsDetector(BaseDetector):
         loss_inputs = outs + (mask_feat_pred, gt_bboxes, gt_labels, gt_masks, img_metas, self.train_cfg)
         losses = self.bbox_head.loss(
             *loss_inputs, img=img, gt_bboxes_ignore=gt_bboxes_ignore,
-            use_ts_loss=self.avg_loss_ins<0.4)
+            use_loss_ts=self.avg_loss_ins<0.4)
         self.avg_loss_ins = self.avg_loss_ins * 0.99 + float(losses['loss_ins']) * 0.01
         return losses
 
@@ -258,5 +258,5 @@ class BoxConditionalInference(SingleStageWSInsDetector):
             x[self.mask_feat_head.
               start_level:self.mask_feat_head.end_level + 1])
         seg_inputs = outs + (mask_feat_pred, img_meta, self.test_cfg, rescale)
-        results = self.bbox_head.get_seg(*seg_inputs, img=img, gt_bboxes=gt_bboxes, gt_labels=gt_labels, gt_masks=gt_masks)
+        results = self.bbox_head.get_seg(*seg_inputs, img=img)
         return results

@@ -14,6 +14,7 @@ from .voc_cocoformat import VOCCocoformatDataset
 from .objects365 import Objects365Dataset
 from .wider_face import WIDERFaceDataset
 from .xml_style import XMLDataset
+from .road_damage import RoadDamageDataset, RoadBoxCondDataset
 
 __all__ = [
     'CustomDataset', 'XMLDataset', 'CocoDataset', 'DeepFashionDataset',
@@ -23,5 +24,5 @@ __all__ = [
     'ClassBalancedDataset', 'WIDERFaceDataset', 'DATASETS', 'PIPELINES',
     'build_dataset', 'replace_ImageToTensor', 'get_loading_pipeline',
     'NumClassCheckHook', 'Objects365Dataset', 'VOCCocoformatDataset',
-    'CocoBoxCondDataset'
+    'CocoBoxCondDataset', 'RoadDamageDataset', 'RoadBoxCondDataset'
 ]

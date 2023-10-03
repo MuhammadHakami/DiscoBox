@@ -35,7 +35,7 @@ model = dict(
         num_outs=5),
     bbox_head=dict(
         type='DiscoBoxSOLOv2Head',
-        num_classes=80,
+        num_classes=13,
         in_channels=256,
         stacked_convs=4,
         seg_feat_channels=512,
@@ -111,7 +111,7 @@ model = dict(
     )
 
 # dataset settings
-dataset_type = 'CocoBoxCondDataset'
+dataset_type = 'RoadBoxCondDataset'
 data_root = 'data/coco/'
 train_pipeline = [
     dict(type='LoadImageFromFile'),
@@ -155,8 +155,8 @@ data = dict(
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/instances_val2017.json',
-        img_prefix=data_root + 'val2017/',
+        ann_file="../date/RoadDamageDetector/data/anno_all_val_dashcam.json",
+        img_prefix="../date/RoadDamageDetector/data/",
         pipeline=test_pipeline))
 # optimizer
 optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0001)
@@ -183,7 +183,6 @@ evaluation = dict(interval=2, metric=['bbox', 'segm'])
 device_ids = range(8)
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dirs/discobox_r50_fpn_3x'
 load_from = None
 resume_from = None
 workflow = [('train', 1)]
